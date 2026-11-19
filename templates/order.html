@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Place an Order | TarteEats{% endblock %}
+{% block content %}
+<h1>Place Your Order 🛍️</h1>
+<form method="post" class="form-card">
+  <label>Your name
+    <input name="customer" required maxlength="80" placeholder="Enter your name">
+  </label>
+  <label>Delivery address
+    <textarea name="address" required maxlength="250" placeholder="Enter your address"></textarea>
+  </label>
+  <label>Choose a treat
+    <select name="item" required>
+      <option value="">Select an item</option>
+      {% for item in menu %}
+      <option value="{{ item.id }}">{{ item.id }} — ₱{{ item.price }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label>Quantity
+    <input type="number" name="quantity" min="1" max="50" value="1" required>
+  </label>
+  <button type="submit">Submit Order</button>
+</form>
+{% endblock %}

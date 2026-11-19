@@ -1,0 +1,129 @@
+
+{% extends "base.html" %}
+
+{% block title %}Seller Dashboard | TarteEats{% endblock %}
+
+{% block content %}
+
+<section class="menu-heading">
+    <p class="eyebrow">TARTEEATS MANAGEMENT</p>
+    <h1>Seller Dashboard 🧑‍🍳</h1>
+    <p>Manage customer orders and delivery updates.</p>
+</section>
+
+<section class="checkout-card">
+
+    {% if orders %}
+
+        {% for order in orders|reverse %}
+
+        <article class="card">
+
+            <h2>Order #{{ order.id }}</h2>
+
+            <p>
+                <strong>Customer:</strong>
+                {{ order.customer }}
+            </p>
+
+            <p>
+                <strong>Delivery Address:</strong>
+                {{ order.address }}
+            </p>
+
+            <h3>Ordered Items</h3>
+
+            {% for item in order['items'] %}
+                <p>
+                    {{ item.id }} × {{ item.quantity }}
+                    — ₱{{ "%.2f"|format(item.subtotal) }}
+                </p>
+            {% endfor %}
+
+            <h3>
+                Total: ₱{{ "%.2f"|format(order.total) }}
+            </h3>
+
+            <p>
+                <strong>Order Status:</strong>
+                {{ order.status }}
+            </p>
+
+            <p>
+                <strong>Estimated Delivery:</strong>
+
+                {% if order.get('delivery_minutes') %}
+                    {{ order['delivery_minutes'] }} minutes
+                {% else %}
+                    Not yet available
+                {% endif %}
+            </p>
+
+            <hr>
+
+            <h3>Update Order</h3>
+
+            <form method="POST"
+                  action="{{ url_for('seller_update_order') }}">
+
+                <input type="hidden"
+                       name="order_id"
+                       value="{{ order.id }}">
+
+                <label>Order Status</label>
+
+                <select name="status" required>
+
+                    <option value="Order received"
+                        {% if order.status == "Order received" %}selected{% endif %}>
+                        Order Received
+                    </option>
+
+                    <option value="Preparing"
+                        {% if order.status == "Preparing" %}selected{% endif %}>
+                        Preparing
+                    </option>
+
+                    <option value="Out for delivery"
+                        {% if order.status == "Out for delivery" %}selected{% endif %}>
+                        Out for Delivery
+                    </option>
+
+                    <option value="Delivered"
+                        {% if order.status == "Delivered" %}selected{% endif %}>
+                        Delivered
+                    </option>
+
+                </select>
+
+                <label>Estimated Delivery (Minutes)</label>
+
+                <input type="number"
+                       name="delivery_minutes"
+                       min="1"
+                       max="240"
+                       value="{{ order.get('delivery_minutes') or '' }}"
+                       placeholder="Example: 25">
+
+                <button type="submit" class="button">
+                    Save Updates
+                </button>
+
+            </form>
+
+        </article>
+
+        {% endfor %}
+
+    {% else %}
+
+        <article class="card">
+            <h2>No Orders Yet</h2>
+            <p>Customer orders will appear here.</p>
+        </article>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

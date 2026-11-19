@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#fff7f0">
+
+    <title>{% block title %}TarteEats{% endblock %}</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <header class="site-header">
+
+        <a class="brand" href="{{ url_for('home') }}">
+            🥧 TarteEats
+        </a>
+
+        <nav>
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('menu') }}">Our Menu</a>
+            <a href="{{ url_for('cart') }}">🛒 My Cart</a>
+            <a href="{{ url_for('tracking') }}">Track Order</a>
+        </nav>
+
+    </header>
+
+    <main>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+
+                <div class="notice">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+
+    </main>
+
+    <footer>
+
+        <p><strong>🥧 TarteEats</strong></p>
+
+        <p>
+            Fresh treats, delicious meals, and easy ordering.
+        </p>
+
+        <small>
+            © 2026 TarteEats. All rights reserved.
+        </small>
+
+    </footer>
+
+</body>
+</html>

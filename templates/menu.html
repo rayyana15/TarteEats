@@ -1,0 +1,100 @@
+
+{% extends "base.html" %}
+
+{% block title %}Our Menu | TarteEats{% endblock %}
+
+{% block content %}
+
+<section class="menu-heading">
+
+    <p class="eyebrow">MADE WITH LOVE, SERVED FRESH</p>
+
+    <h1>Explore Our Menu 🍽️</h1>
+
+    <p>
+        Discover your favorites, choose your quantity,
+        and add your selections to your cart!
+    </p>
+
+    <a href="{{ url_for('cart') }}" class="button">
+        🛒 View My Cart
+    </a>
+
+</section>
+
+{% for category, items in menu|groupby('category') %}
+
+<section class="menu-category">
+
+    <h2>{{ category }}</h2>
+
+    <div class="cards">
+
+        {% for item in items %}
+
+        <article class="card food-card">
+
+            <img
+                class="food-image"
+                src="{{ item.image }}"
+                alt="{{ item.id }}"
+                loading="lazy"
+                onerror="this.style.display='none'"
+            >
+
+            <div class="food-details">
+
+                <h3>{{ item.id }}</h3>
+
+                <p>
+                    {{ item.description }}
+                </p>
+
+                <p class="price">
+                    ₱{{ "%.2f"|format(item.price) }}
+                </p>
+
+                <form
+                    action="{{ url_for('add_to_cart') }}"
+                    method="POST"
+                >
+
+                    <input
+                        type="hidden"
+                        name="item"
+                        value="{{ item.id }}"
+                    >
+
+                    <label for="quantity-{{ loop.index }}-{{ category|replace(' ', '-') }}">
+                        Quantity:
+                    </label>
+
+                    <input
+                        type="number"
+                        id="quantity-{{ loop.index }}-{{ category|replace(' ', '-') }}"
+                        name="quantity"
+                        value="1"
+                        min="1"
+                        max="50"
+                        required
+                    >
+
+                    <button type="submit" class="button">
+                        Add to Cart 🛒
+                    </button>
+
+                </form>
+
+            </div>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endfor %}
+
+{% endblock %}

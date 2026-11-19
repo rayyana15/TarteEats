@@ -1,0 +1,93 @@
+
+{% extends "base.html" %}
+
+{% block title %}Checkout | TarteEats{% endblock %}
+
+{% block content %}
+
+<section class="menu-heading">
+
+    <p class="eyebrow">ALMOST THERE</p>
+
+    <h1>Checkout 🧾</h1>
+
+    <p>
+        Review your order and enter your delivery
+        information to complete your purchase.
+    </p>
+
+</section>
+
+<section class="card checkout-card">
+
+    <h2>Order Summary</h2>
+
+    {% for item in cart_items %}
+
+        <div class="checkout-row">
+
+            <span>
+                {{ item.id }} × {{ item.quantity }}
+            </span>
+
+            <strong>
+                ₱{{ "%.2f"|format(item.subtotal) }}
+            </strong>
+
+        </div>
+
+    {% endfor %}
+
+    <hr>
+
+    <div class="checkout-row">
+        <h2>Total Amount</h2>
+
+        <h2>
+            ₱{{ "%.2f"|format(total) }}
+        </h2>
+    </div>
+
+    <hr>
+
+    <h2>Customer Information</h2>
+
+    <form method="POST" action="{{ url_for('checkout') }}">
+
+        <label for="customer">Your Name</label>
+
+        <input
+            id="customer"
+            type="text"
+            name="customer"
+            placeholder="Enter your full name"
+            maxlength="100"
+            required
+        >
+
+        <label for="address">Delivery Address</label>
+
+        <textarea
+            id="address"
+            name="address"
+            placeholder="Enter your complete delivery address"
+            rows="4"
+            maxlength="300"
+            required
+        ></textarea>
+
+        <button type="submit" class="button">
+            Place Order →
+        </button>
+
+    </form>
+
+    <p>
+        <a href="{{ url_for('cart') }}">
+            ← Back to Cart
+        </a>
+    </p>
+
+</section>
+
+{% endblock %}

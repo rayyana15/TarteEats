@@ -1,0 +1,68 @@
+
+{% extends "base.html" %}
+
+{% block title %}TarteEats | Home{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+
+    <p class="eyebrow">
+        FRESHLY MADE • DELICIOUSLY SERVED
+    </p>
+
+    <h1>Welcome to TarteEats!</h1>
+
+    <p>
+        Good food makes every moment better.
+        Explore our delicious meals, refreshing drinks,
+        and freshly prepared desserts.
+    </p>
+
+    <a class="button" href="{{ url_for('menu') }}">
+        Explore Our Menu →
+    </a>
+
+</section>
+
+<section class="intro">
+
+    <h2>Good Food, Made Easy.</h2>
+
+    <p>
+        Find your favorite food, add your choices to your cart,
+        and place your order in just a few simple steps.
+        You can also track your order after checkout.
+    </p>
+
+</section>
+
+<section class="features">
+
+    <div class="feature">
+        <h3>🍰 Delicious Desserts</h3>
+        <p>
+            Treat yourself to sweet and satisfying desserts
+            made for every occasion.
+        </p>
+    </div>
+
+    <div class="feature">
+        <h3>🍽️ Tasty Food Choices</h3>
+        <p>
+            Explore a variety of meals and side dishes
+            for your everyday cravings.
+        </p>
+    </div>
+
+    <div class="feature">
+        <h3>🛵 Easy Ordering</h3>
+        <p>
+            Enjoy a simple ordering process and check
+            the progress of your purchase.
+        </p>
+    </div>
+
+</section>
+
+{% endblock %}

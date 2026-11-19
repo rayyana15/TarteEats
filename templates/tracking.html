@@ -1,0 +1,119 @@
+
+{% extends "base.html" %}
+
+{% block title %}Track Order | TarteEats{% endblock %}
+
+{% block content %}
+
+<section class="menu-heading">
+
+    <p class="eyebrow">ORDER UPDATES</p>
+
+    <h1>Track Your Order 📦</h1>
+
+    <p>
+        Enter your order number to check the latest
+        status of your TarteEats purchase.
+    </p>
+
+</section>
+
+<section class="card checkout-card">
+
+    <form method="POST" action="{{ url_for('tracking') }}">
+
+        <label for="order_id">Enter Order Number</label>
+
+        <input
+            type="number"
+            id="order_id"
+            name="order_id"
+            placeholder="Example: 1001"
+            min="1"
+            required
+        >
+
+        <button type="submit" class="button">
+            Track Order
+        </button>
+
+    </form>
+
+    {% if order %}
+
+        <hr>
+
+        <h2>Order #{{ order.id }}</h2>
+
+        <p>
+            <strong>Customer:</strong>
+            {{ order.customer }}
+        </p>
+
+        <p>
+            <strong>Delivery Address:</strong>
+            {{ order.address }}
+        </p>
+
+        <p>
+            <strong>Current Status:</strong>
+            {{ order.status }}
+        </p>
+
+        <p>
+            <strong>Estimated Delivery:</strong>
+
+            {% if order.get('delivery_minutes') %}
+                Arriving in approximately
+                {{ order['delivery_minutes'] }} minutes.
+            {% else %}
+                Waiting for seller's delivery estimate.
+            {% endif %}
+        </p>
+
+        <hr>
+
+        <h3>Ordered Items</h3>
+
+        {% for item in order['items'] %}
+
+            <div class="checkout-row">
+
+                <span>
+                    {{ item.id }} × {{ item.quantity }}
+                </span>
+
+                <strong>
+                    ₱{{ "%.2f"|format(item.subtotal) }}
+                </strong>
+
+            </div>
+
+        {% endfor %}
+
+        <hr>
+
+        <div class="checkout-row">
+            <h2>Total Amount</h2>
+
+            <h2>
+                ₱{{ "%.2f"|format(order.total) }}
+            </h2>
+        </div>
+
+    {% elif searched %}
+
+        <div class="card">
+            <h3>Order Not Found</h3>
+
+            <p>
+                Sorry, we couldn't find that order number.
+                Please check the number and try again.
+            </p>
+        </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

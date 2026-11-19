@@ -1,0 +1,89 @@
+
+{% extends "base.html" %}
+
+{% block title %}Order Confirmed | TarteEats{% endblock %}
+
+{% block content %}
+
+<section class="menu-heading">
+
+    <p class="eyebrow">THANK YOU FOR ORDERING!</p>
+
+    <h1>Order Confirmed! 🎉</h1>
+
+    <p>
+        Thank you for choosing TarteEats.
+        Your order has been successfully received.
+    </p>
+
+</section>
+
+<section class="card checkout-card">
+
+    <h2>Order Details</h2>
+
+    <p>
+        <strong>Order Number:</strong>
+        #{{ order.id }}
+    </p>
+
+    <p>
+        <strong>Customer:</strong>
+        {{ order.customer }}
+    </p>
+
+    <p>
+        <strong>Delivery Address:</strong>
+        {{ order.address }}
+    </p>
+
+    <p>
+        <strong>Order Status:</strong>
+        {{ order.status }}
+    </p>
+
+    <hr>
+
+    <h2>Ordered Items</h2>
+
+    {% for item in order['items'] %}
+
+        <div class="checkout-row">
+
+            <span>
+                {{ item.id }} × {{ item.quantity }}
+            </span>
+
+            <strong>
+                ₱{{ "%.2f"|format(item.subtotal) }}
+            </strong>
+
+        </div>
+
+    {% endfor %}
+
+    <hr>
+
+    <div class="checkout-row">
+        <h2>Total Amount</h2>
+
+        <h2>
+            ₱{{ "%.2f"|format(order.total) }}
+        </h2>
+    </div>
+
+    <div class="checkout-actions">
+
+        <a href="{{ url_for('tracking') }}" class="button">
+            Track Your Order
+        </a>
+
+        <a href="{{ url_for('menu') }}" class="button">
+            Back to Menu
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}
